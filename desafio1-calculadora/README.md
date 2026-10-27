@@ -45,12 +45,12 @@ Certifique-se de ter o [Python 3](https://www.python.org/) instalado em seu comp
 
 1. **Clone o repositório** (ou baixe os arquivos):
    ```bash
-   git clone https://github.com/SEU-USUARIO/NOME-DO-REPOSITORIO.git
+   git clone https://github.com/Imersao-Dev-IA-Alura-Google.git
    ```
 
 2. **Acesse a pasta do projeto**:
    ```bash
-   cd NOME-DO-REPOSITORIO
+   cd Imersao-Dev-IA-Alura-Google
    ```
 
 3. **Abra no VS Code** (opcional):
@@ -89,9 +89,9 @@ Resultado: 10.0 + 5.5 = 15.5
 
 ## 👤 Autor
 
-Desenvolvido por **[Seu Nome]** 👋  
-- GitHub: [@seu-usuario](https://github.com/seu-usuario)
-- LinkedIn: [Seu Nome](https://linkedin.com/in/seu-usuario)
+Desenvolvido por **[Fernando Guilherme Sievert Yepes]** 👋  
+- GitHub: [fernandoYepes]([https://github.com/seu-usuario](https://github.com/fernandoYepes))
+- LinkedIn: [Fernando]([https://linkedin.com/in/seu-usuario](https://www.linkedin.com/in/fernandosievert/))
 
 ---
 
