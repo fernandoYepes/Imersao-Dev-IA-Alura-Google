@@ -9,7 +9,7 @@ Repositório dedicado aos projetos, exercícios e desafios práticos desenvolvid
 | Desafio | Projeto | Tecnologia / Ferramentas | Pasta |
 | :--- | :--- | :--- | :--- |
 | **01** | Calculadora em Python com IA Studio | Python, Google AI Studio | [`/desafio-01-calculadora`](./desafio1-calculadora) |
-| **02** | *Em breve...* | - | - |
+| **02** | Calculadora Refatorada (+ Testes) | Python, Engenharia de Prompt | [`/desafio2-calculadora-refatorada`](./desafio2-calculadora-refatorada) |
 | **03** | *Em breve...* | - | - |
 
 ---
