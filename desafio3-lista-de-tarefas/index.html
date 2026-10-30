@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minha Lista de Tarefas</title>
+  <style>
+    /* 1. ESTILIZAÇÃO GERAL (CSS) */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #e0eafc, #cfdef3);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      background-color: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      padding: 28px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 24px;
+      color: #333333;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    /* Entrada de texto e botão Adicionar */
+    .input-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 12px 14px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus {
+      border-color: #4f46e5;
+    }
+
+    .btn-add {
+      background-color: #4f46e5;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .btn-add:hover {
+      background-color: #4338ca;
+    }
+
+    /* Lista de Itens */
+    ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .tarefa-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .tarefa-conteudo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .tarefa-conteudo input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #10b981;
+    }
+
+    .texto-tarefa {
+      font-size: 15px;
+      color: #1f2937;
+      word-break: break-all;
+      transition: all 0.2s ease;
+    }
+
+    /* ========================================================
+       MELHORIA VISUAL: Tarefas concluídas vs pendentes
+       ======================================================== */
+    .tarefa-item.concluida {
+      background-color: #f0fdf4;
+      border-color: #bbf7d0;
+    }
+
+    .tarefa-item.concluida .texto-tarefa {
+      text-decoration: line-through;
+      color: #9ca3af;
+    }
+
+    /* Botão Remover */
+    .btn-remove {
+      background-color: transparent;
+      border: none;
+      color: #ef4444;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: background-color 0.2s;
+    }
+
+    .btn-remove:hover {
+      background-color: #fee2e2;
+    }
+
+    .vazio-msg {
+      text-align: center;
+      color: #94a3b8;
+      font-size: 14px;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>📝 Minhas Tarefas</h1>
+
+    <!-- Formulário para adicionar -->
+    <div class="input-group">
+      <input type="text" id="tarefaInput" placeholder="Digite uma nova tarefa..." autofocus />
+      <button class="btn-add" id="btnAdicionar">Adicionar</button>
+    </div>
+
+    <!-- Lista de tarefas exibidas -->
+    <ul id="listaTarefas"></ul>
+    <p id="msgVazio" class="vazio-msg">Nenhuma tarefa no momento.</p>
+  </div>
+
+  <script>
+    /* 2. LÓGICA DA APLICAÇÃO (JavaScript) */
+
+    // 2.1. Estado da aplicação (Array de objetos)
+    let tarefas = [];
+
+    // 2.2. Referências aos elementos do HTML
+    const input = document.getElementById('tarefaInput');
+    const btnAdicionar = document.getElementById('btnAdicionar');
+    const listaTarefas = document.getElementById('listaTarefas');
+    const msgVazio = document.getElementById('msgVazio');
+
+    // 2.3. Função para renderizar (desenhar na tela)
+    function renderizarTarefas() {
+      listaTarefas.innerHTML = '';
+
+      if (tarefas.length === 0) {
+        msgVazio.style.display = 'block';
+      } else {
+        msgVazio.style.display = 'none';
+      }
+
+      tarefas.forEach((tarefa, index) => {
+        const li = document.createElement('li');
+        li.className = `tarefa-item ${tarefa.concluida ? 'concluida' : ''}`;
+
+        li.innerHTML = `
+          <div class="tarefa-conteudo">
+            <input type="checkbox" ${tarefa.concluida ? 'checked' : ''} onchange="alternarConclusao(${index})">
+            <span class="texto-tarefa">${tarefa.texto}</span>
+          </div>
+          <button class="btn-remove" onclick="removerTarefa(${index})" title="Excluir tarefa">✕</button>
+        `;
+
+        listaTarefas.appendChild(li);
+      });
+    }
+
+    // 2.4. Funcionalidade: Adicionar Tarefa
+    function adicionarTarefa() {
+      const texto = input.value.trim();
+      if (texto === '') {
+        alert('Por favor, digite o nome da tarefa!');
+        return;
+      }
+
+      tarefas.push({
+        texto: texto,
+        concluida: false
+      });
+
+      input.value = '';
+      input.focus();
+      renderizarTarefas();
+    }
+
+    // 2.5. Funcionalidade: Concluir/Desmarcar Tarefa
+    function alternarConclusao(index) {
+      tarefas[index].concluida = !tarefas[index].concluida;
+      renderizarTarefas();
+    }
+
+    // 2.6. Funcionalidade: Remover Tarefa
+    function removerTarefa(index) {
+      tarefas.splice(index, 1);
+      renderizarTarefas();
+    }
+
+    // Eventos de clique e pressionar Enter
+    btnAdicionar.addEventListener('click', adicionarTarefa);
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        adicionarTarefa();
+      }
+    });
+
+    // Renderização inicial
+    renderizarTarefas();
+  </script>
+</body>
+</html>
